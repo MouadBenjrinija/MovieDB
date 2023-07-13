@@ -30,7 +30,7 @@ extension AnyPublisher {
 
 public typealias DisposeBag = Set<AnyCancellable>
 extension DisposeBag {
-    mutating func dispose() {
+    public mutating func dispose() {
         forEach { $0.cancel() }
         removeAll()
     }

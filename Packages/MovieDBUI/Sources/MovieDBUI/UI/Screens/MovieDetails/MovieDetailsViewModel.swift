@@ -9,11 +9,11 @@ import Foundation
 import MovieDBCore
 
 
-public class MovieDetailsViewModel {
+class MovieDetailsViewModel {
   
   private let repository: MoviesRepository
   private let movie: Movie
-  
+  private let router: any MovieDetailsRouter
   @Published private var movieDetails: Loadable<MovieDetails> = .notLoaded
   
   /// derived attributes
@@ -24,9 +24,10 @@ public class MovieDetailsViewModel {
   @Published var isLoading: Bool = false
   private var bag = DisposeBag()
   
-  public init(repository: MoviesRepository, movie: Movie) {
+  init(repository: MoviesRepository, movie: Movie, router: any MovieDetailsRouter) {
     self.repository = repository
     self.movie = movie
+    self.router = router
     setup()
   }
   
@@ -59,6 +60,15 @@ public class MovieDetailsViewModel {
         movieDetails = .failed(nil, error)
       }
     }
+  }
+  
+  func onBackPressed() {
+    router.trigger(route: .goBack)
+    bag.dispose()
+  }
+  
+  deinit {
+    print("MovieDetailsViewModel cleared")
   }
   
 }

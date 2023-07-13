@@ -9,16 +9,16 @@ import UIKit
 import Combine
 import MovieDBCore
 
-public class MoviesListViewController: UIViewController, NibLoadable {
+class MoviesListViewController: UIViewController, NibLoadable {
   
-  public var viewModel: MoviesListViewModel!
+  var viewModel: MoviesListViewModel!
   
   @IBOutlet weak var tableview: UITableView!
-  var dataSource: UITableViewDiffableDataSource<Int, MovieCellViewModel>!
-  let refreshControl = UIRefreshControl()
-  var bag = DisposeBag()
+  private var dataSource: UITableViewDiffableDataSource<Int, MovieCellViewModel>!
+  private let refreshControl = UIRefreshControl()
+  private var bag = DisposeBag()
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     setup()
     viewModel.refreshMovies()
@@ -61,14 +61,14 @@ public class MoviesListViewController: UIViewController, NibLoadable {
 
 extension MoviesListViewController: UITableViewDelegate {
   // handle pagination on scroll down
-  public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     guard tableview.numberOfRows(inSection: 0) - 1 == indexPath.row else { return }
     viewModel.loadNextMoviesPage()
   }
 
-  public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 200 }
   
-  public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     guard let cellViewModel = dataSource.itemIdentifier(for: indexPath) else { return }
     viewModel.didSelect(movie: cellViewModel.movie)
   }

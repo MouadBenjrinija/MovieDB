@@ -9,8 +9,8 @@ import Foundation
 import MovieDBCore
 
 struct MovieCellViewModel: Hashable {
-  var movie: Movie
-  var posterURL: URL?
+  let movie: Movie
+  let posterURL: URL?
   var title: String { movie.title }
   var releaseDate: String {
     movie.releaseDate?.toString() ?? "-"

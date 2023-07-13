@@ -60,8 +60,10 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output {
   
   func decodeData<T>(successCodes: HTTPCodes = .success)
   -> AnyPublisher<T, Error> where T: Decodable {
-    mapData(successCodes: successCodes)
-      .decode(type: T.self, decoder: JSONDecoder())
+    let jsonDecoder = JSONDecoder()
+    jsonDecoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+    return mapData(successCodes: successCodes)
+      .decode(type: T.self, decoder: jsonDecoder)
       .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()
   }

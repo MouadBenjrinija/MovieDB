@@ -8,9 +8,9 @@
 import UIKit
 import MovieDBCore
 
-public class MovieDetailsViewController: UIViewController, NibLoadable {
+class MovieDetailsViewController: UIViewController, NibLoadable {
 
-  public var viewModel: MovieDetailsViewModel!
+  var viewModel: MovieDetailsViewModel!
   
   @IBOutlet weak var poster: UIImageView!
 
@@ -23,7 +23,7 @@ public class MovieDetailsViewController: UIViewController, NibLoadable {
   
   var bag = DisposeBag()
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     setup()
     viewModel.loadDetails()
@@ -54,10 +54,10 @@ public class MovieDetailsViewController: UIViewController, NibLoadable {
   }
   
   @IBAction func onBackTap(_ sender: Any) {
-    navigationController?.popViewController(animated: true)
+    viewModel.onBackPressed()
   }
   
-  func showLoading(_ show: Bool) {
+  private func showLoading(_ show: Bool) {
     if show {
       loadingIndicator.startAnimating()
     } else {
@@ -66,4 +66,7 @@ public class MovieDetailsViewController: UIViewController, NibLoadable {
     mainView.isHidden = show
   }
   
+  deinit {
+    print("MovieDetailsVC cleared")
+  }
 }

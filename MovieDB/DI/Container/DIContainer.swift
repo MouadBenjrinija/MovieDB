@@ -25,6 +25,7 @@ class DIContainer: Injector {
   
   func resolve<T>(_ injectable: Injectable<T>) throws -> T {
     try (components[injectable.identifier] as? T) ?? {
+      assertionFailure("Unregistered object with identifier: \(injectable.identifier)")
       throw InjectionError.unregistered(injectable.identifier)
     }()
   }

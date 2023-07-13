@@ -9,18 +9,16 @@ import Foundation
 import Combine
 import MovieDBCore
 
-public class MoviesListViewModel {
-  
+class MoviesListViewModel {
   let moviesInteractor: MoviesInteractor
   let analyticsManager: AnalyticsService
-  let goToDetails: ((Movie) -> (Void))?
+  let router: any MovieListRouter
   
   var movies: AnyPublisher<[MovieCellViewModel], Never> {
     get {
       moviesInteractor.moviesPaginator.map { loadable in
         loadable.value?.results
       }
-      .replaceError(with: [])
         .replaceNil(with: [])
         .map({movies in
           movies.map {
@@ -40,14 +38,18 @@ public class MoviesListViewModel {
     }
   }
   
-  @Published var error: String?
+  @Published var error: String? {
+    didSet {
+      print(error ?? "error cleared")
+    }
+  }
   
   public init(moviesInteractor: MoviesInteractor,
-       analyticsManager: AnalyticsService,
-       goToDetails: ((Movie) -> Void)?) {
+              analyticsManager: AnalyticsService,
+              router: some MovieListRouter) {
     self.moviesInteractor = moviesInteractor
     self.analyticsManager = analyticsManager
-    self.goToDetails = goToDetails
+    self.router = router
     self.start()
   }
 
@@ -77,6 +79,6 @@ public class MoviesListViewModel {
   }
   
   func didSelect(movie: Movie) {
-    goToDetails?(movie)
+    router.trigger(route: .goToDetails(movie))
   }
 }
