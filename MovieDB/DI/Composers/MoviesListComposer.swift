@@ -9,42 +9,44 @@ import UIKit
 import MovieDBCore
 import MovieDBUI
 
-
 // MARK: - Main Dependency Composer
-// a composer is responsiple of building depdencies and injecting them in different components
-// a composer can own multiple child composers which are created on demand
+// a composer is responsiple of building dependencies and injecting them in different components
+// it uses the DI container (service locator in this case) to resolve dependencies
 class MoviesListComposer {
   
   private let container: DIContainer
+  private weak var navigationController: UINavigationController?
   
-  init(container: DIContainer) {
+  init(container: DIContainer, navigationController: UINavigationController) {
     self.container = container
+    self.navigationController = navigationController
   }
   
-  func startApp(with navigationController: UINavigationController) {
-    let router = MoviesListRouterMain(
-      navigationController: navigationController,
-      dependencyFactory: self)
-    router.start()
-  }
-}
-
-extension MoviesListComposer: MoviesListDependencyFactory {
-  func makeMoviesListScene(with router: any MovieListRouter) -> Scene? {
-    guard let moviesInteractor = try? container.resolve(.Domain.Interactor.movies) ,
+  func makeMoviesListScene() -> Scene? {
+    guard let navigationController,
+          let moviesInteractor = try? container.resolve(.Domain.Interactor.movies) ,
           let analyticsManager = try? container.resolve(.Domain.Interactor.analytics) else {
-      assertionFailure("Failed to resolve dependencies at \(#function)")
+      assertionFailure("Failed to start app at \(#function)")
       return nil
     }
+    let router = MoviesListRouterMain(
+      navigationController: navigationController,
+      sceneFactory: self)
     return MoviesListScene(
       moviesInteractor: moviesInteractor,
       analyticsManager: analyticsManager,
-      router: router)
+      router: router) 
   }
+}
+
+extension MoviesListComposer: MoviesListSceneFactory {
   
-  func makeMovieDetailsRouter(for movie: Movie, navigationController: UINavigationController) -> any MovieDetailsRouter
-  {
-    let composer = MovieDetailsComposer(container: container)
-    return composer.makeMovieDetailsRouter(for: movie, navigationController: navigationController)
+  func makeMovieDetailsScene(for movie: Movie) -> Scene? {
+    guard let navigationController else {
+      assertionFailure("Failed to make MovieDetailsScene at \(#function)")
+      return nil
+    }
+    let composer = MovieDetailsComposer(container: container, navigationController: navigationController)
+    return composer.makeMovieDetailsScene(for: movie)
   }
 }

@@ -8,48 +8,38 @@
 import UIKit
 import MovieDBCore
 
-// a facade that composes depdencies for the router
-public protocol MovieDetailsDependencyFactory: AnyObject {
-  func makeMovieDetailsScene(for movie: Movie, router: some MovieDetailsRouter) -> Scene?
+// a facade that composes scenes for the router
+public protocol MovieDetailsSceneFactory: AnyObject {
 }
 
 // a router manages the actual navigation/transition,
 // it manages the instance of a UINavigationController for example
-// it doesn't build dependencies, it just pulls them from the composer through the factory protocol
-// it doesn't know which screen will be launched for a certain event.
+// it doesn't build scenes, it just pulls them from the composer through the factory protocol
+// it doesn't know which exact screen will be launched for a certain event
+// it just deals with the Scene protocol that encapsulates a viewController variable within.
 public class MovieDetailsRouterMain: MovieDetailsRouter {
   
-  private let movie: Movie
   private weak var navigationController: UINavigationController?
-  private let dependencyFactory: MovieDetailsDependencyFactory
+  private let sceneFactory: MovieDetailsSceneFactory
   
-  public init(movie: Movie,
-              navigationController: UINavigationController,
-              dependencyFactory: MovieDetailsDependencyFactory) {
-    self.movie = movie
+  public init(navigationController: UINavigationController,
+              sceneFactory: MovieDetailsSceneFactory) {
     self.navigationController = navigationController
-    self.dependencyFactory = dependencyFactory
-  }
-  
-  public func start() {
-    guard let scene = dependencyFactory.makeMovieDetailsScene(for: movie, router: self),
-          let navigationController else {
-      assertionFailure("failed to make MoviesListScene at \(#function)")
-      return
-    }
-    navigationController.pushViewController(scene.viewController, animated: true)
+    self.sceneFactory = sceneFactory
   }
   
   public func trigger(route: MovieDetailsRoute) {
     switch route {
-    case .goBack:
-      guard let navigationController else {
-        assertionFailure("NavController not retained at \(#function)")
-        return
-      }
-      navigationController.popViewController(animated: true)
-      break
+    case .goBack: popScene()
     }
+  }
+  
+  private func popScene() {
+    guard let navigationController else {
+      assertionFailure("NavController not retained at \(#function)")
+      return
+    }
+    navigationController.popViewController(animated: true)
   }
   
   deinit {

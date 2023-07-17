@@ -10,30 +10,26 @@ import MovieDBCore
 import MovieDBUI
 
 
-class MovieDetailsComposer: MovieDetailsDependencyFactory {
+class MovieDetailsComposer: MovieDetailsSceneFactory {
   private let container: DIContainer
+  private weak var navigationController: UINavigationController?
   
-  init(container: DIContainer) {
+  init(container: DIContainer, navigationController: UINavigationController) {
     self.container = container
+    self.navigationController = navigationController
   }
   
-  func makeMovieDetailsScene(for movie: Movie, router: some MovieDetailsRouter) -> Scene? {
-    guard let moviesRepository = try? container.resolve(.Data.Repository.Remote.movies) else {
+  func makeMovieDetailsScene(for movie: Movie) -> Scene? {
+    guard let navigationController,
+          let moviesRepository = try? container.resolve(.Data.Repository.Remote.movies) else {
       assertionFailure("Failed to resolve dependencies at \(#function)")
       return nil
     }
+    let router = MovieDetailsRouterMain(navigationController: navigationController, sceneFactory: self)
     return MovieDetailsScene(
       repository: moviesRepository,
       movie: movie,
       router: router)
-  }
-  
-  func makeMovieDetailsRouter(for movie: Movie,
-                              navigationController: UINavigationController) -> any MovieDetailsRouter {
-    return MovieDetailsRouterMain(
-      movie: movie,
-      navigationController: navigationController,
-      dependencyFactory: self)
   }
   
   deinit {

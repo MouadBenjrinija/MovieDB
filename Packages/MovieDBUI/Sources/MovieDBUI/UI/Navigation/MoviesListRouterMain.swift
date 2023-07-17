@@ -8,48 +8,41 @@
 import UIKit
 import MovieDBCore
 
-// a facade that composes depdencies for the router
-public protocol MoviesListDependencyFactory: AnyObject {
-  func makeMoviesListScene(with router: any MovieListRouter) -> Scene?
-  func makeMovieDetailsRouter(for movie: Movie, navigationController: UINavigationController) -> any MovieDetailsRouter
+// a facade that composes scenes for the router
+public protocol MoviesListSceneFactory: AnyObject {
+  func makeMovieDetailsScene(for movie: Movie) -> Scene?
 }
 
 // a router manages the actual navigation/transition,
 // it manages the instance of a UINavigationController for example
-// it doesn't build dependencies, it just pulls them from the composer through the factory protocol
-// it doesn't know which screen will be launched for a certain event.
+// it doesn't build scenes, it just pulls them from the composer through the factory protocol
+// it doesn't know which exact screen will be launched for a certain event
+// it just deals with the Scene protocol that encapsulates a viewController variable within.
 public class MoviesListRouterMain: MovieListRouter {
   
   private weak var navigationController: UINavigationController?
-  private let dependencyFactory: MoviesListDependencyFactory
+  private let sceneFactory: MoviesListSceneFactory
   
-  public init(navigationController: UINavigationController, dependencyFactory: MoviesListDependencyFactory) {
+  public init(navigationController: UINavigationController, sceneFactory: MoviesListSceneFactory) {
     self.navigationController = navigationController
-    self.dependencyFactory = dependencyFactory
+    self.sceneFactory = sceneFactory
   }
   
-  public func start() {
-    guard let scene = dependencyFactory.makeMoviesListScene(with: self),
-          let navigationController else {
+  public func trigger(route: MoviesListRoute) {
+    switch route {
+    case .goToDetails(let movie):
+      self.showDetails(for: movie)
+      break
+    }
+  }
+  
+  private func showDetails(for movie: Movie) {
+    guard let navigationController,
+          let scene = sceneFactory.makeMovieDetailsScene(for: movie) else {
       assertionFailure("failed to make MoviesListScene at \(#function)")
       return
     }
     navigationController.pushViewController(scene.viewController, animated: true)
   }
   
-  public func trigger(route: MoviesListRoute) {
-    switch route {
-    case .goToDetails(let movie):
-      guard let navigationController else
-      {
-        assertionFailure("failed to make MoviesListScene at \(#function)")
-        return
-      }
-      let movieDetailsRouter = dependencyFactory.makeMovieDetailsRouter(
-        for: movie,
-        navigationController: navigationController)
-      movieDetailsRouter.start()
-      break
-    }
-  }
 }

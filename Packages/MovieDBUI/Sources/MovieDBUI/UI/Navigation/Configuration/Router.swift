@@ -10,5 +10,4 @@ import Foundation
 public protocol Router: AnyObject {
   associatedtype RouteModel: Route
   func trigger(route: RouteModel)
-  func start()
 }
