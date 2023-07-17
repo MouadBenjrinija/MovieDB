@@ -30,23 +30,23 @@ class MovieDetailsViewController: UIViewController, NibLoadable {
   }
   
   func setup() {
-    viewModel.$posterURL.sink { [weak self] in
+    viewModel.posterURL.sink { [weak self] in
       self?.poster.load(url: $0, placeholder: nil)
     }.store(in: &bag)
     
-    viewModel.$title.sink { [weak self] in
+    viewModel.title.sink { [weak self] in
       self?.titleLabel.text = $0
     }.store(in: &bag)
     
-    viewModel.$description.sink { [weak self] in
+    viewModel.description.sink { [weak self] in
       self?.descLabel.text = $0
     }.store(in: &bag)
     
-    viewModel.$genres.sink { [weak self] in
+    viewModel.genres.sink { [weak self] in
       self?.genresLabel.text = $0
     }.store(in: &bag)
     
-    viewModel.$isLoading.sink { [weak self] in
+    viewModel.isLoading.sink { [weak self] in
       self?.showLoading($0)
     }.store(in: &bag)
     

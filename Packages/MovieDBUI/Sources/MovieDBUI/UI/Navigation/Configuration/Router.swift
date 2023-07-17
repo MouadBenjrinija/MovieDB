@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol Router: AnyObject {
-  associatedtype AnyRoute: Route
-  func trigger(route: AnyRoute)
+  associatedtype RouteModel: Route
+  func trigger(route: RouteModel)
   func start()
 }

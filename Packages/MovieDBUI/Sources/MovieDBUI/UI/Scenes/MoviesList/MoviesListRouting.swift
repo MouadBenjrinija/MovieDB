@@ -12,4 +12,4 @@ public enum MoviesListRoute: Route {
   case goToDetails(Movie)
 }
 
-public protocol MovieListRouter: Router where AnyRoute == MoviesListRoute {}
+public protocol MovieListRouter: Router where RouteModel == MoviesListRoute {}

@@ -7,7 +7,7 @@
 
 import Foundation
 import MovieDBCore
-
+import Combine
 
 class MovieDetailsViewModel {
   
@@ -17,12 +17,11 @@ class MovieDetailsViewModel {
   @Published private var movieDetails: Loadable<MovieDetails> = .notLoaded
   
   /// derived attributes
-  @Published var title: String = ""
-  @Published var description: String = ""
-  @Published var genres: String = ""
-  @Published var posterURL: URL?
-  @Published var isLoading: Bool = false
-  private var bag = DisposeBag()
+  var title: AnyPublisher<String, Never>!
+  var description: AnyPublisher<String, Never>!
+  var genres: AnyPublisher<String, Never>!
+  var posterURL: AnyPublisher<URL?, Never>!
+  var isLoading: AnyPublisher<Bool, Never>!
   
   init(repository: MoviesRepository, movie: Movie, router: any MovieDetailsRouter) {
     self.repository = repository
@@ -32,22 +31,22 @@ class MovieDetailsViewModel {
   }
   
   func setup() {
-    posterURL = repository.urlFor(posterPath: movie.posterPath)
-    $movieDetails.map(\.value)
+    let movieDetailsPublisher = $movieDetails.map(\.value)
       .replaceError(with: nil)
       .compactMap { $0 }
       .receive(on: DispatchQueue.main)
-      .sink(receiveValue: { [weak self] movieDetail in
-        self?.title = movieDetail.title
-        self?.description = movieDetail.overview ?? "-"
-        self?.genres = movieDetail.genres?
-          .compactMap { $0.name }.joined(separator: ", ") ?? "-"
-      }).store(in: &bag)
-    $movieDetails
+    
+    self.title = movieDetailsPublisher.map { $0.title }.eraseToAnyPublisher()
+    self.description = movieDetailsPublisher.map { $0.overview ?? "-" }.eraseToAnyPublisher()
+    self.genres = movieDetailsPublisher.map {
+      $0.genres?.compactMap { $0.name }
+        .joined(separator: ", ") ?? "-"
+      }.eraseToAnyPublisher()
+    self.posterURL = Just(repository.urlFor(posterPath: movie.posterPath)).eraseToAnyPublisher()
+    self.isLoading = $movieDetails
       .map(\.isLoading)
       .receive(on: DispatchQueue.main)
-      .assign(to: \.isLoading, on: self)
-      .store(in: &bag)
+      .eraseToAnyPublisher()
   }
   
   func loadDetails() {
@@ -64,7 +63,6 @@ class MovieDetailsViewModel {
   
   func onBackPressed() {
     router.trigger(route: .goBack)
-    bag.dispose()
   }
   
   deinit {
