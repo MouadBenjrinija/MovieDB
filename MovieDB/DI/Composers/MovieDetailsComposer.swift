@@ -10,7 +10,7 @@ import MovieDBCore
 import MovieDBUI
 
 
-class MovieDetailsComposer: MovieDetailsSceneFactory {
+class MovieDetailsComposer {
   private let container: DIContainer
   private weak var navigationController: UINavigationController?
   
@@ -34,5 +34,12 @@ class MovieDetailsComposer: MovieDetailsSceneFactory {
   
   deinit {
     print("MovieDetailsComposer cleared")
+  }
+}
+
+extension MovieDetailsComposer: MovieDetailsSceneFactory {
+  func makeTrailerScene(for movie: Movie) -> Scene? {
+    let composer = MovieTrailerComposer(container: container)
+    return composer.makeTrailerScene(for: movie)
   }
 }

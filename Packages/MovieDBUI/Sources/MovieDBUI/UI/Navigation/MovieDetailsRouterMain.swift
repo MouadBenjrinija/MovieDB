@@ -8,15 +8,10 @@
 import UIKit
 import MovieDBCore
 
-// a facade that composes scenes for the router
 public protocol MovieDetailsSceneFactory: AnyObject {
+  func makeTrailerScene(for movie: Movie) -> Scene?
 }
 
-// a router manages the actual navigation/transition,
-// it manages the instance of a UINavigationController for example
-// it doesn't build scenes, it just pulls them from the composer through the factory protocol
-// it doesn't know which exact screen will be launched for a certain event
-// it just deals with the Scene protocol that encapsulates a viewController variable within.
 public class MovieDetailsRouterMain: MovieDetailsRouter {
   
   private weak var navigationController: UINavigationController?
@@ -30,6 +25,7 @@ public class MovieDetailsRouterMain: MovieDetailsRouter {
   
   public func trigger(route: MovieDetailsRoute) {
     switch route {
+    case .showTrailer(let movie): showTrailer(for: movie)
     case .goBack: popScene()
     }
   }
@@ -40,6 +36,15 @@ public class MovieDetailsRouterMain: MovieDetailsRouter {
       return
     }
     navigationController.popViewController(animated: true)
+  }
+  
+  private func showTrailer(for movie: Movie) {
+    guard let scene = sceneFactory.makeTrailerScene(for: movie) else {
+      assertionFailure("NavController not retained at \(#function)")
+      return
+    }
+    scene.viewController.modalPresentationStyle = .formSheet
+    navigationController?.present(scene.viewController, animated: true)
   }
   
   deinit {

@@ -57,6 +57,10 @@ class MovieDetailsViewController: UIViewController, NibLoadable {
     viewModel.onBackPressed()
   }
   
+  @IBAction func onShowTrailerTap(_ sender: Any) {
+    viewModel.showTrailer()
+  }
+  
   private func showLoading(_ show: Bool) {
     if show {
       loadingIndicator.startAnimating()

@@ -13,11 +13,6 @@ public protocol MoviesListSceneFactory: AnyObject {
   func makeMovieDetailsScene(for movie: Movie) -> Scene?
 }
 
-// a router manages the actual navigation/transition,
-// it manages the instance of a UINavigationController for example
-// it doesn't build scenes, it just pulls them from the composer through the factory protocol
-// it doesn't know which exact screen will be launched for a certain event
-// it just deals with the Scene protocol that encapsulates a viewController variable within.
 public class MoviesListRouterMain: MovieListRouter {
   
   private weak var navigationController: UINavigationController?

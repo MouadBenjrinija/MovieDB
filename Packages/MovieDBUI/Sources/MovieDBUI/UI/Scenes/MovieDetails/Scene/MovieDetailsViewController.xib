@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -67,6 +68,14 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1u-2c-V4U">
+                                            <rect key="frame" x="285.33333333333331" y="50" width="90.666666666666686" height="34.333333333333343"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="play.fill" catalog="system" title="Trailer"/>
+                                            <connections>
+                                                <action selector="onShowTrailerTap:" destination="-1" eventType="touchUpInside" id="tQI-bx-w70"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
@@ -75,6 +84,7 @@
                                         <constraint firstAttribute="height" constant="500" id="PTi-i4-czG"/>
                                         <constraint firstItem="95U-TF-rJb" firstAttribute="top" secondItem="hPM-q5-14u" secondAttribute="top" id="QyA-mx-4XR"/>
                                         <constraint firstAttribute="trailing" secondItem="p7p-ws-enm" secondAttribute="trailing" id="Tlh-Kb-9mk"/>
+                                        <constraint firstItem="Q1u-2c-V4U" firstAttribute="trailing" secondItem="95U-TF-rJb" secondAttribute="trailing" constant="-14" id="emT-8k-vO4"/>
                                         <constraint firstAttribute="bottom" secondItem="95U-TF-rJb" secondAttribute="bottom" id="gas-pa-Rpm"/>
                                         <constraint firstItem="95U-TF-rJb" firstAttribute="leading" secondItem="hPM-q5-14u" secondAttribute="leading" id="iQO-6H-mh7"/>
                                         <constraint firstAttribute="bottom" secondItem="p7p-ws-enm" secondAttribute="bottom" id="kvB-rZ-Vo0"/>
@@ -137,6 +147,7 @@
                 <constraint firstAttribute="trailing" secondItem="WKK-Wd-EBc" secondAttribute="trailing" id="QVh-N2-2eV"/>
                 <constraint firstItem="VxD-WD-4tK" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Vi0-jr-NLP"/>
                 <constraint firstItem="hE6-wY-Fxt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="etd-rP-qsi"/>
+                <constraint firstItem="Q1u-2c-V4U" firstAttribute="centerY" secondItem="g0Y-xt-T9p" secondAttribute="centerY" id="nRG-rA-Gat"/>
                 <constraint firstItem="WKK-Wd-EBc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pkU-Ua-kCJ"/>
                 <constraint firstItem="WKK-Wd-EBc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rxI-GE-49b"/>
                 <constraint firstItem="g0Y-xt-T9p" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="xv3-QB-MXp"/>
@@ -147,6 +158,7 @@
     </objects>
     <resources>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="play.fill" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

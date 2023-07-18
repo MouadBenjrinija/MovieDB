@@ -36,13 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // why is the ownership like this? >> because when the viewController is poped from the navigationController, everythign related to that scene is deallocated along with it.
     
     let navigationController = UINavigationController()
-    let moviesListComposer = MoviesListComposer(
+    let mainComposer = MainComposer(
       container: DIContainer.configure(),
       navigationController: navigationController)
-    guard let scene = moviesListComposer.makeMoviesListScene() else {
-      fatalError("unable to start app")
-    }
-    navigationController.pushViewController(scene.viewController, animated: true)
+    let mainRouter = mainComposer.makeMainRouter()
+    mainRouter.trigger(route: .moviesList)
     
     window!.rootViewController = navigationController
     window!.makeKeyAndVisible()

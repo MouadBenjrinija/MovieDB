@@ -65,6 +65,10 @@ class MovieDetailsViewModel {
     router.trigger(route: .goBack)
   }
   
+  func showTrailer() {
+    router.trigger(route: .showTrailer(movie))
+  }
+  
   deinit {
     print("MovieDetailsViewModel cleared")
   }

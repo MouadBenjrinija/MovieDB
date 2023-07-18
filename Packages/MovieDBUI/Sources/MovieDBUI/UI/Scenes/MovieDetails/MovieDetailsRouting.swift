@@ -9,6 +9,7 @@ import Foundation
 import MovieDBCore
 
 public enum MovieDetailsRoute: Route {
+  case showTrailer(Movie)
   case goBack
 }
 

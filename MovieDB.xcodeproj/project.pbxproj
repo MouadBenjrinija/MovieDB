@@ -11,6 +11,8 @@
 		EDA74F202A54230E0033B224 /* Injector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA74F1F2A54230E0033B224 /* Injector.swift */; };
 		EDA74F222A5423300033B224 /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA74F212A5423300033B224 /* Injectable.swift */; };
 		EDA74F242A5428500033B224 /* DIContainer+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA74F232A5428500033B224 /* DIContainer+Config.swift */; };
+		EDB31EFC2A65CBDE0010E3AC /* MovieTrailerComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB31EFB2A65CBDE0010E3AC /* MovieTrailerComposer.swift */; };
+		EDB31EFE2A65E5840010E3AC /* MainComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB31EFD2A65E5840010E3AC /* MainComposer.swift */; };
 		EDB5C95129C0EF1400EC3B77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5C95029C0EF1400EC3B77 /* AppDelegate.swift */; };
 		EDB5C95A29C0EF1700EC3B77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDB5C95929C0EF1700EC3B77 /* Assets.xcassets */; };
 		EDBBE5012A55D94100053A25 /* MovieDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = EDBBE5002A55D94100053A25 /* MovieDBCore */; };
@@ -27,6 +29,8 @@
 		EDA74F1F2A54230E0033B224 /* Injector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injector.swift; sourceTree = "<group>"; };
 		EDA74F212A5423300033B224 /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		EDA74F232A5428500033B224 /* DIContainer+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DIContainer+Config.swift"; sourceTree = "<group>"; };
+		EDB31EFB2A65CBDE0010E3AC /* MovieTrailerComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTrailerComposer.swift; sourceTree = "<group>"; };
+		EDB31EFD2A65E5840010E3AC /* MainComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComposer.swift; sourceTree = "<group>"; };
 		EDB5C94D29C0EF1300EC3B77 /* MovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDB5C95029C0EF1400EC3B77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDB5C95929C0EF1700EC3B77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			children = (
 				EDA74F1A2A5421E00033B224 /* MoviesListComposer.swift */,
 				EDFE34012A60153B00AEF62E /* MovieDetailsComposer.swift */,
+				EDB31EFB2A65CBDE0010E3AC /* MovieTrailerComposer.swift */,
+				EDB31EFD2A65E5840010E3AC /* MainComposer.swift */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -212,12 +218,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDB31EFC2A65CBDE0010E3AC /* MovieTrailerComposer.swift in Sources */,
 				EDB5C95129C0EF1400EC3B77 /* AppDelegate.swift in Sources */,
 				EDA74F202A54230E0033B224 /* Injector.swift in Sources */,
 				EDA74F242A5428500033B224 /* DIContainer+Config.swift in Sources */,
 				EDFE34022A60153B00AEF62E /* MovieDetailsComposer.swift in Sources */,
 				EDA74F1E2A5422110033B224 /* DIContainer.swift in Sources */,
 				EDBBE5062A55DA2600053A25 /* MoviesListComposer.swift in Sources */,
+				EDB31EFE2A65E5840010E3AC /* MainComposer.swift in Sources */,
 				EDA74F222A5423300033B224 /* Injectable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

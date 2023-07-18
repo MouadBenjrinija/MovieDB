@@ -35,8 +35,9 @@ class MoviesListComposer {
     return MoviesListScene(
       moviesInteractor: moviesInteractor,
       analyticsManager: analyticsManager,
-      router: router) 
+      router: router)
   }
+  
 }
 
 extension MoviesListComposer: MoviesListSceneFactory {
