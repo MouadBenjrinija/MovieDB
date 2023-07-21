@@ -61,11 +61,11 @@ class MovieDetailsViewModel {
     }
   }
   
-  func onBackPressed() {
+  func didTapBackButton() {
     router.trigger(route: .goBack)
   }
   
-  func showTrailer() {
+  func didTapShowTrailerButton() {
     router.trigger(route: .showTrailer(movie))
   }
   

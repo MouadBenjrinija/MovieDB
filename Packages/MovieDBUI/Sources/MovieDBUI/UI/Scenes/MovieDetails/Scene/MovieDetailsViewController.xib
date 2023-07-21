@@ -73,7 +73,7 @@
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="play.fill" catalog="system" title="Trailer"/>
                                             <connections>
-                                                <action selector="onShowTrailerTap:" destination="-1" eventType="touchUpInside" id="tQI-bx-w70"/>
+                                                <action selector="didTapShowTrailerButton:" destination="-1" eventType="touchUpInside" id="tQI-bx-w70"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -136,7 +136,7 @@
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system" title="Back"/>
                     <connections>
-                        <action selector="onBackTap:" destination="-1" eventType="touchUpInside" id="2jI-SI-dHb"/>
+                        <action selector="didTapBackButton:" destination="-1" eventType="touchUpInside" id="2jI-SI-dHb"/>
                     </connections>
                 </button>
             </subviews>

@@ -53,12 +53,12 @@ class MovieDetailsViewController: UIViewController, NibLoadable {
     navigationController?.setNavigationBarHidden(true, animated: false)
   }
   
-  @IBAction func onBackTap(_ sender: Any) {
-    viewModel.onBackPressed()
+  @IBAction func didTapBackButton(_ sender: Any) {
+    viewModel.didTapBackButton()
   }
   
-  @IBAction func onShowTrailerTap(_ sender: Any) {
-    viewModel.showTrailer()
+  @IBAction func didTapShowTrailerButton(_ sender: Any) {
+    viewModel.didTapShowTrailerButton()
   }
   
   private func showLoading(_ show: Bool) {

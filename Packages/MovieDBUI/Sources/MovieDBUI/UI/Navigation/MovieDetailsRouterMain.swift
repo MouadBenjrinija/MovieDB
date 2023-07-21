@@ -43,8 +43,9 @@ public class MovieDetailsRouterMain: MovieDetailsRouter {
       assertionFailure("NavController not retained at \(#function)")
       return
     }
-    scene.viewController.modalPresentationStyle = .formSheet
-    navigationController?.present(scene.viewController, animated: true)
+    let viewController = scene.viewController
+    viewController.modalPresentationStyle = .formSheet
+    navigationController?.present(viewController, animated: true)
   }
   
   deinit {
