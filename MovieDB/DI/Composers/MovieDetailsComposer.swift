@@ -11,20 +11,20 @@ import MovieDBUI
 
 
 class MovieDetailsComposer {
-  private let container: DIContainer
+  private let container: Container
   private weak var navigationController: UINavigationController?
   
-  init(container: DIContainer, navigationController: UINavigationController) {
+  init(container: Container, navigationController: UINavigationController) {
     self.container = container
     self.navigationController = navigationController
   }
   
   func makeMovieDetailsScene(for movie: Movie) -> Scene? {
-    guard let navigationController,
-          let moviesRepository = try? container.resolve(.Data.Repository.Remote.movies) else {
-      assertionFailure("Failed to resolve dependencies at \(#function)")
+    guard let navigationController else {
+      assertionFailure("navigationController not retained at \(#function)")
       return nil
     }
+    let moviesRepository = container.get(.moviesRepository)
     let router = MovieDetailsRouterMain(navigationController: navigationController, sceneFactory: self)
     return MovieDetailsScene(
       repository: moviesRepository,

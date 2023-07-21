@@ -10,9 +10,9 @@ import MovieDBCore
 import MovieDBUI
 
 class MovieTrailerComposer {
-  private let container: DIContainer
+  private let container: Container
   
-  init(container: DIContainer) {
+  init(container: Container) {
     self.container = container
   }
   
