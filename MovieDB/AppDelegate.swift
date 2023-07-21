@@ -31,13 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // [viewModel] coordinates between the V and M of MVVM (keeps V synced to M + inform M of V input)
     // [router] defines what happens for what RoutingEvent + manages framework navigation (UINavigationController)
     // [composer] creates concrete components on demand for the router utilizing the di-container
-    // [di-container] in this case works as a serviceLocator and is used only by composers.
+    // [di-container] in this case works as a serviceLocator and is used ONLY by composers, this is intentional to keep our components purely seperated and not depend on a certain service locator implementation.
     
     // why is the ownership like this? >> because when the viewController is poped from the navigationController, everythign related to that scene is deallocated along with it.
     
     let navigationController = UINavigationController()
     let mainComposer = MainComposer(
-      container: DIContainer.configure(),
+      container: .shared,
       navigationController: navigationController)
     let mainRouter = mainComposer.makeMainRouter()
     mainRouter.trigger(route: .moviesList)

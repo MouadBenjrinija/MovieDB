@@ -14,18 +14,16 @@ import MovieDBUI
 // it uses the DI container (service locator in this case) to resolve dependencies
 class MoviesListComposer {
   
-  private let container: DIContainer
+  private let container: Container
   private weak var navigationController: UINavigationController?
   
-  init(container: DIContainer, navigationController: UINavigationController) {
+  init(container: Container, navigationController: UINavigationController) {
     self.container = container
     self.navigationController = navigationController
   }
   
   func makeMoviesListScene() -> Scene? {
-    guard let navigationController,
-          let moviesInteractor = try? container.resolve(.Domain.Interactor.movies) ,
-          let analyticsManager = try? container.resolve(.Domain.Interactor.analytics) else {
+    guard let navigationController else {
       assertionFailure("Failed to start app at \(#function)")
       return nil
     }
@@ -33,8 +31,8 @@ class MoviesListComposer {
       navigationController: navigationController,
       sceneFactory: self)
     return MoviesListScene(
-      moviesInteractor: moviesInteractor,
-      analyticsManager: analyticsManager,
+      moviesInteractor: container.get(.movieInteractor),
+      analyticsManager: container.get(.analyticsService),
       router: router)
   }
   
@@ -47,7 +45,9 @@ extension MoviesListComposer: MoviesListSceneFactory {
       assertionFailure("Failed to make MovieDetailsScene at \(#function)")
       return nil
     }
-    let composer = MovieDetailsComposer(container: container, navigationController: navigationController)
+    let composer = MovieDetailsComposer(
+      container: container,
+      navigationController: navigationController)
     return composer.makeMovieDetailsScene(for: movie)
   }
 }

@@ -11,10 +11,10 @@ import MovieDBUI
 
 class MainComposer {
   
-  private let container: DIContainer
+  private let container: Container
   private weak var navigationController: UINavigationController?
 
-  init(container: DIContainer, navigationController: UINavigationController) {
+  init(container: Container, navigationController: UINavigationController) {
     self.container = container
     self.navigationController = navigationController
   }
